@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubSaver Ultra Pro - Local Financial Dashboard</title>
+    <!-- Collegamento al foglio di stile esterno -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="full-width" id="header-area">
+        <h1>SubSaver <span id="brand-pro">ULTRA PRO</span> 🛡️</h1>
+        <p id="privacy-badge">🔒 DATABASE PRIVATO LOCALE CRITTOGRAFATO ATTIVO</p>
+    </div>
+
+    <!-- PANNELLO INSERIMENTO -->
+    <div class="card">
+        <h3>➕ Engine Inserimento</h3>
+        <div class="legal-banner">
+            <strong>AVVISO DI TUTELA (EULA PRIVACY):</strong> I dati finanziari immessi rimangono confinati nel modulo sandbox del browser/dispositivo. Non avviene alcun transito dati su reti WAN/Cloud. Lo sviluppatore esclude responsabilità per rinnovi desiderati derivanti da utilizzi impropri dell'algoritmo.
+        </div>
+        
+        <div class="form-group">
+            <label for="subName">Identificativo Servizio</label>
+            <input type="text" id="subName" placeholder="Es. Netflix, Spotify, Assicurazione Auto">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="subCost">Importo Nominale (€)</label>
+                <input type="number" id="subCost" step="0.01" min="0" placeholder="0.00">
+            </div>
+            <div class="form-group">
+                <label for="subCycle">Frequenza di Rinnovo</label>
+                <select id="subCycle">
+                    <option value="7">Settimanale</option>
+                    <option value="30" selected>Mensile</option>
+                    <option value="60">Bimestrale</option>
+                    <option value="182">Semestrale</option>
+                    <option value="365">Annuale</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="subCat">Macro Categoria</label>
+                <select id="subCat">
+                    <option value="Intrattenimento">Intrattenimento</option>
+                    <option value="Produttivita">Produttività / Lavoro</option>
+                    <option value="Utility">Utility / Servizi</option>
+                    <option value="Salute">Salute & Sport</option>
+                    <option value="Altro">Altro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="subDate">Data Prossimo Addebito</label>
+                <input type="date" id="subDate">
+            </div>
+        </div>
+
+        <button onclick="engineAddSubscription()">Elabora e Scrivi in Memoria</button>
+        
+        <div class="form-row btn-container-margin">
+            <button class="btn-secondary" onclick="exportDatabase()">Backup Archivio (JSON)</button>
+            <button class="btn-secondary" onclick="document.getElementById('importFile').click()">Ripristina da File</button>
+        </div>
+        <input type="file" id="importFile" class="hidden-input" onchange="importDatabase(event)">
+    </div>
+
+    <!-- PANNELLO RESOCONTO FINANZIARIO ED ELENCO -->
+    <div class="card">
+        <h3>📊 Resoconto Finanziario di Controllo</h3>
+        
+        <div class="financial-hub">
+            <div class="hub-box box-monthly">
+                <div class="hub-val" id="statMonth">€0.00</div>
+                <div class="hub-lbl">Spesa Mensile Totale</div>
+            </div>
+            <div class="hub-box box-yearly">
+                <div class="hub-val" id="statYear">€0.00</div>
+                <div class="hub-lbl">Spesa Annuale Proiettata</div>
+            </div>
+        </div>
+
+        <div class="micro-stats">
+            <div>Spesa Giornaliera: <span id="statDay" class="bold-white">€0.00</span></div>
+            <div>Spesa Settimanale: <span id="statWeek" class="bold-white">€0.00</span></div>
+        </div>
+
+        <label>Ripartizione delle Categorie su base Mensile</label>
+        <div class="analytics-bar" id="chartBar"></div>
+
+        <div class="filter-bar">
+            <input type="text" id="searchQuery" placeholder="Filtra per nome..." oninput="renderEngine()">
+            <select id="filterCat" onchange="renderEngine()">
+                <option value="ALL">Tutte le Categorie</option>
+                <option value="Intrattenimento">Intrattenimento</option>
+                <option value="Produttivita">Produttività</option>
+                <option value="Utility">Utility</option>
+                <option value="Salute">Salute</option>
+                <option value="Altro">Altro</option>
+            </select>
+            <select id="sortBy" onchange="renderEngine()">
+                <option value="date-asc">Data (Più vicina)</option>
+                <option value="price-desc">Prezzo (Decrescente)</option>
+                <option value="price-asc">Prezzo (Crescente)</option>
+            </select>
+        </div>
+
+        <div class="sub-list" id="masterSubContainer"></div>
+    </div>
+</div>
+
+<!-- Collegamento alla logica script esterna -->
+<script src="app.js"></script>
+</body>
+</html>
 
